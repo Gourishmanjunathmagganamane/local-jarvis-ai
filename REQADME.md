@@ -49,16 +49,20 @@ All processing happens **locally** using **Ollama**, **LangChain**, and **Chroma
 ---
 
 ## 📁 Project Structure
-local-jarvis-ai/
-├── app_streamlit.py
-├── query_data.py
-├── populate_database.py
-├── get_embedding_function.py
-├── test_rag.py
-├── requirements.txt
-├── README.md
-├── data/
-└── chroma/
+## 📁 Project Structure
+
+| File / Folder | Description |
+|-------------------------------|----------------------------------------------|
+| `app_streamlit.py` | Streamlit UI (frontend) |
+| `query_data.py` | RAG query logic |
+| `populate_database.py` | Loads and embeds PDFs into Chroma |
+| `get_embedding_function.py` | Embedding setup (Ollama / LangChain) |
+| `test_rag.py` | Unit testing and validation |
+| `requirements.txt` | Python dependencies |
+| `README.md` | Project documentation |
+| `data/` | Folder containing your PDFs |
+| `chroma/` | Auto-generated vector database |
+
 
 yaml
 Copy code
