@@ -49,7 +49,7 @@ All processing happens **locally** using **Ollama**, **LangChain**, and **Chroma
 ---
 
 ## 📁 Project Structure
-
+<p align="center">
 local-jarvis-ai/
 │
 ├── app_streamlit.py # Streamlit UI (frontend)
@@ -62,7 +62,7 @@ local-jarvis-ai/
 │
 ├── data/ # PDFs stored here
 └── chroma/ # Auto-generated vector DB
-
+</p>
 yaml
 Copy code
 
