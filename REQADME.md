@@ -1,227 +1,240 @@
-🤖 Local Jarvis AI — Offline RAG Chat Assistant
+<h1 align="center">🤖 Local Jarvis AI</h1>
 
-A fully offline AI-powered document assistant built using
-🧠 Ollama (Mistral + Embedding Model),
-📚 LangChain + Chroma, and
-🎨 Streamlit for an interactive chat interface.
+<p align="center">
+  <b>💬 Your Offline, Privacy-First AI Assistant</b><br>
+  Built with <a href="https://ollama.ai" target="_blank">Ollama</a> 🦙 | <a href="https://www.langchain.com" target="_blank">LangChain</a> 🧠 | <a href="https://streamlit.io" target="_blank">Streamlit</a> ⚡
+</p>
 
-This project lets you upload your own PDF notes or documents and then ask natural language questions.
-The AI finds relevant context from your local files and responds intelligently — no internet or API key required.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.12+-blue?logo=python" />
+  <img src="https://img.shields.io/badge/LLM-Mistral%7CLLaMA3-green?logo=openai" />
+  <img src="https://img.shields.io/badge/Database-ChromaDB-purple?logo=databricks" />
+  <img src="https://img.shields.io/badge/UI-Streamlit-red?logo=streamlit" />
+  <img src="https://img.shields.io/badge/Status-Offline%20AI-success?logo=github" />
+</p>
 
-🚀 Features
+---
 
-🔒 100% Offline (uses local Ollama models)
+## 🧠 Overview
 
-📄 Upload and query your own PDFs
+**Local Jarvis AI** is an **offline RAG-based assistant** that can read your PDFs, learn from them, and answer questions instantly.  
+All processing happens **locally** using **Ollama**, **LangChain**, and **ChromaDB** — keeping your data private and secure.
 
-🧩 Uses Retrieval Augmented Generation (RAG) for contextual answers
+> ⚙️ Think ChatGPT — but completely offline and personalized to your own study material.
 
-🧠 Embeddings stored locally in Chroma vector database
+---
 
-💬 Interactive web interface using Streamlit
+## 🎯 Features
 
-⚙️ Built modularly with modern LangChain ecosystem
+✅ Runs **fully offline** (no API key or internet needed)  
+📄 Upload **PDF / TXT / DOCX** notes  
+🧩 Uses **Retrieval Augmented Generation (RAG)**  
+⚡ Answers powered by **Mistral / LLaMA 3**  
+💬 Interactive **Streamlit chat interface**  
+📚 Shows **sources** for every answer  
+💾 Embeddings stored locally via **Chroma Vector DB**
 
-🧱 Works with Mistral or LLaMA 3 models
+---
 
-🧰 Tech Stack
-Component	Purpose
-Python 3.12+	Core programming language
-Ollama	Local LLM hosting (Mistral / LLaMA 3 / Nomic Embed)
-LangChain Community	Document loading, text splitting, and RAG logic
-LangChain Core	Data structures and document schema
-LangChain Chroma	Vector storage and retrieval
-Streamlit	Frontend web app
-ChromaDB	Local vector store for embeddings
-📦 Folder Structure
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-------------|
+| 🧠 LLM | Ollama (Mistral / LLaMA 3) |
+| 📚 Framework | LangChain (Community + Core) |
+| 💾 Vector DB | Chroma |
+| 🎨 Frontend | Streamlit |
+| 🐍 Language | Python 3.12+ |
+
+---
+
+## 📁 Project Structure
+
 local-jarvis-ai/
 │
-├── app_streamlit.py             # Main chat app (Streamlit UI)
-├── query_data.py                # Core query pipeline for RAG
-├── populate_database.py         # Loads and indexes PDFs into Chroma
-├── get_embedding_function.py    # Sets up local Ollama embeddings
-├── test_rag.py                  # Evaluation tests for QA
-├── requirements.txt             # Project dependencies
+├── app_streamlit.py # Streamlit UI (frontend)
+├── query_data.py # RAG query logic
+├── populate_database.py # Loads and embeds PDFs
+├── get_embedding_function.py # Embedding setup (Ollama)
+├── test_rag.py # Testing and validation
+├── requirements.txt # Dependencies
+├── README.md # Documentation
 │
-├── data/                        # Folder containing user-uploaded PDFs
-│   ├── Software Engineering.pdf
-│   ├── Data Structures and Algorithms.pdf
-│   ├── Networking Basics.pdf
-│   └── Cloud Computing.pdf
-│
-├── chroma/                      # Vector database (auto-generated)
-└── README.md                    # Project documentation
+├── data/ # PDFs stored here
+└── chroma/ # Auto-generated vector DB
 
-⚙️ Installation Guide
-1️⃣ Install Ollama
+yaml
+Copy code
 
-Download from https://ollama.com/download
+---
 
-Then verify installation:
+## ⚙️ Installation
 
+### 1️⃣ Install Ollama
+
+Download 👉 [https://ollama.com/download](https://ollama.com/download)
+
+Verify:
+```bash
 ollama --version
+Start Ollama in background:
 
-
-Start the Ollama server (if not running automatically):
-
+bash
+Copy code
 ollama serve
-
-2️⃣ Pull Required Models
+2️⃣ Pull required models
+bash
+Copy code
 ollama pull mistral
 ollama pull nomic-embed-text
 ollama pull llama3
+Check installed models:
 
-
-Check available models:
-
+bash
+Copy code
 ollama list
+✅ Example Output:
 
-
-✅ Expected:
-
+makefile
+Copy code
 mistral:latest
 nomic-embed-text:latest
 llama3:latest
-
-3️⃣ Set Up Python Environment
-
+3️⃣ Set up environment
 If using Miniconda:
 
+bash
+Copy code
 conda create -n jarvis python=3.12 -y
 conda activate jarvis
-
-
 Then install dependencies:
 
+bash
+Copy code
 pip install -r requirements.txt
+If no requirements file:
 
+bash
+Copy code
+pip install streamlit langchain-core langchain-community langchain-chroma chromadb pypdf sentence-transformers pytest boto3
+4️⃣ Add your notes or study PDFs
+Place all your PDFs in the data/ folder:
 
-If requirements.txt doesn’t exist, manually install:
+kotlin
+Copy code
+data/
+ ├── Data Structures and Algorithms.pdf
+ ├── Networking Basics.pdf
+ ├── Software Engineering.pdf
+ └── Cloud Computing.pdf
+🧩 Build Knowledge Base
+Run:
 
-pip install streamlit langchain-community langchain-core langchain-chroma chromadb pypdf sentence-transformers pytest boto3
-
-🧠 Build Vector Database
-
-Place your notes or PDFs in the data/ folder.
-
-Then run:
-
+bash
+Copy code
 python populate_database.py --reset
-
-
 Expected output:
 
+pgsql
+Copy code
 ✨ Clearing Database
 👉 Adding new documents: 169
 ✅ Database updated and persisted successfully!
+💬 Query from Terminal
+Ask directly:
 
-💬 Query Your AI Locally
-
-Try a direct question from your terminal:
-
+bash
+Copy code
 python query_data.py "What are the phases of SDLC?"
-
-
 Example output:
 
-The phases of SDLC include:
+markdown
+Copy code
+The phases of SDLC are:
 1. Requirement Analysis
 2. Design
 3. Implementation
 4. Testing
 5. Deployment
 6. Maintenance
+🖥️ Launch Streamlit Chat UI
+Run:
 
-🖥️ Run the Streamlit App
-
-Start the web interface:
-
+bash
+Copy code
 streamlit run app_streamlit.py
-
-
-Expected terminal output:
-
-Local URL: http://localhost:8501
-Network URL: http://192.168.x.x:8501
-
-
-Now open the given local URL in your browser.
-
-🗣️ Chat with Jarvis
-
-Once open, you can:
-
-Upload new PDFs
+Then open the URL displayed:
+👉 http://localhost:8501
 
 Ask questions like:
 
+pgsql
+Copy code
 What is cloud computing?
 Difference between array and linked list?
+🧠 How It Works (RAG Flow)
+1️⃣ PDFs are read and split into small chunks
+2️⃣ Chunks are embedded using nomic-embed-text
+3️⃣ Stored in Chroma Vector DB
+4️⃣ When you ask something → Top matching chunks are retrieved
+5️⃣ Mistral generates a detailed answer using that context
+6️⃣ Streamlit shows the response + sources
 
+<p align="center"> <img src="https://github.com/microsoft/LLM-RAG-demo/raw/main/docs/rag-diagram.png" width="650"> </p>
+⚡ Common Issues & Fixes
+Issue	Fix
+❌ AttributeError: 'Chroma' object has no attribute 'persist'	Use from langchain_chroma import Chroma and db._client.persist()
+❌ Import 'langchain.schema' could not be resolved	Use from langchain_core.documents import Document
+❌ JSONDecodeError in Streamlit	Add stream=True and handle multi-line JSON output
 
-See responses appear in real-time
+🧪 Testing
+Run automated RAG tests:
 
-View sources used from your uploaded files
-
-⚡ Common Fixes
-❌ AttributeError: 'Chroma' object has no attribute 'persist'
-
-→ Install and use updated langchain-chroma:
-
-pip install -U langchain-chroma
-
-
-and replace:
-
-from langchain.vectorstores.chroma import Chroma
-
-
-with:
-
-from langchain_chroma import Chroma
-
-❌ Import "langchain.schema" could not be resolved
-
-→ Replace with:
-
-from langchain_core.documents import Document
-
-❌ JSONDecodeError in Streamlit
-
-→ Ollama returns multiple JSON lines. Fix by reading in streaming mode or parsing only first valid JSON object.
-
-🧪 Test Setup
-
-Run validation tests for question-answer quality:
-
+bash
+Copy code
 pytest test_rag.py
+🧱 Future Enhancements
+ Add DOCX and TXT support
+
+ Typing animation (ChatGPT style)
+
+ Microphone input & text-to-speech
+
+ Dockerize for one-click setup
+
+ Add dark/light theme toggle in Streamlit
 
 🔐 Privacy
+🛡️ 100% local processing
+🧠 Your data never leaves your machine
+☁️ No cloud APIs or online storage used
 
-All processing happens locally —
-no data leaves your machine.
-Ollama, LangChain, and Chroma run offline, making this a secure personal assistant setup.
-
-💡 Future Improvements
-
-Add support for DOCX, TXT uploads
-
-Stream typing animations (like ChatGPT)
-
-Include voice input/output
-
-Dockerize the entire setup for one-click deployment
-
-🧑‍💻 Author
-
+👨‍💻 Author
 Gourish M.
-📘 MCA Student @ Kristu Jayanti College
-💬 Interested in AI, Data Analysis, and Web Development
+🎓 MCA Student @ Kristu Jayanti College
+💡 Passionate about AI, Data, and Cloud
+🌐 GitHub
 
-🏁 Quick Summary
-Command	Purpose
-ollama serve	Start Ollama server
-ollama list	Check available models
-python populate_database.py	Build vector DB from PDFs
-python query_data.py "<question>"	Ask a question
-streamlit run app_streamlit.py	Launch chat UI
+🏁 Quick Reference
+Command	Description
+ollama serve	Start Ollama backend
+ollama list	Check local models
+python populate_database.py --reset	Rebuild vector DB
+python query_data.py "<question>"	Query directly
+streamlit run app_streamlit.py	Launch UI
+
+<p align="center"> <b>🚀 Local Jarvis AI — Your Personal Offline Knowledge Assistant</b><br> <i>“Because your data deserves privacy.”</i> </p> ```
+✅ Steps for you:
+Copy everything above.
+
+Open VS Code → local-jarvis-ai/README.md
+
+Paste → Save.
+
+Commit and push to GitHub:
+
+bash
+Copy code
+git add README.md
+git commit -m "Added rich README for Local Jarvis AI"
+git push
