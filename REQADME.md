@@ -49,20 +49,17 @@ All processing happens **locally** using **Ollama**, **LangChain**, and **Chroma
 ---
 
 ## 📁 Project Structure
-<p align="center">
 local-jarvis-ai/
-│
-├── app_streamlit.py # Streamlit UI (frontend)
-├── query_data.py # RAG query logic
-├── populate_database.py # Loads and embeds PDFs
-├── get_embedding_function.py # Embedding setup (Ollama)
-├── test_rag.py # Testing and validation
-├── requirements.txt # Dependencies
-├── README.md # Documentation
-│
-├── data/ # PDFs stored here
-└── chroma/ # Auto-generated vector DB
-</p>
+├── app_streamlit.py
+├── query_data.py
+├── populate_database.py
+├── get_embedding_function.py
+├── test_rag.py
+├── requirements.txt
+├── README.md
+├── data/
+└── chroma/
+
 yaml
 Copy code
 
