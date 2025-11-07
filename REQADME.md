@@ -49,7 +49,6 @@ All processing happens **locally** using **Ollama**, **LangChain**, and **Chroma
 ---
 
 ## 📁 Project Structure
-## 📁 Project Structure
 
 | File / Folder | Description |
 |-------------------------------|----------------------------------------------|
