@@ -1,0 +1,18 @@
+# Core
+streamlit
+langchain
+langchain-community
+chromadb
+pypdf
+python-docx
+sentence-transformers
+requests
+
+# Vector DB / embeddings helper (CPU)
+faiss-cpu
+
+# Testing
+pytest
+
+# Optional (if you want to use AWS Bedrock)
+boto3

@@ -1,0 +1,3 @@
+Cloud computing delivers computing services over the Internet.
+Major models include IaaS, PaaS, and SaaS.
+Providers include AWS, Azure, and Google Cloud.

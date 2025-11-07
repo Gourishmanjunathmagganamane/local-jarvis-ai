@@ -1,0 +1,30 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Chroma DB
+chroma/
+*.sqlite3
+
+# Ollama models
+*.bin
+*.pt
+
+# Streamlit & logs
+.streamlit/
+logs/
+
+# Data files (you can re-upload PDFs later)
+data/*.pdf
+
+# OS & IDE junk
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
