@@ -2,12 +2,12 @@
 
 /* --- BODY BACKGROUND IMAGE (J.A.R.V.I.S. Blueprint) --- */
 [data-testid="stAppViewContainer"] {
-    /* Ensure this path matches where you place your image (e.g., in a 'static' folder) */
-    background-image: url("static/iron_man_bg.jpg"); 
-    background-size: cover; 
-    background-position: center; 
+    /* Use the correct path to your image */
+    background-image: url("iron_man_bg.jpg"); /* FIX: Changed from .png to .jpg */
+    background-size: cover; /* Ensures the image covers the entire screen, fitting landscape orientation */
+    background-position: center; /* Centers the image */
     background-repeat: no-repeat;
-    background-attachment: fixed; 
+    background-attachment: fixed; /* Keeps image fixed when scrolling content */
 }
 
 /* --- OVERLAY STYLING (To ensure text is readable) --- */
@@ -60,21 +60,7 @@ button[kind="primary"] {
 }
 
 /* Custom styles for the Title/Header alignment */
-/* FIX: Control h2 margin/padding */
 h2 {
     color: #CCCCCC !important; 
-    padding-top: 5px; 
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-    line-height: 1.2;
-}
-
-/* FIX: New style to center the status box vertically with the title (Flexbox trick) */
-.status-box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center vertically within the column */
-    height: 100%;
-    text-align: right; 
-    font-size: 14px;
+    padding-top: 10px;
 }

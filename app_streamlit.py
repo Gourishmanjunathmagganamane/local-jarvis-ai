@@ -18,145 +18,22 @@ def check_ollama_health():
 def get_db_status():
     """Returns the number of files and chunks in the database (simple count)."""
     try:
-<<<<<<< HEAD
-        file_count = len([name for name in os.listdir(DATA_PATH) if not name.startswith('.')])
-        if os.path.exists(CHROMA_PATH):
-=======
         # A simple way to estimate: check number of files in data/
         file_count = len([name for name in os.listdir(DATA_PATH) if not name.startswith('.')])
         
         # A rough estimate of chunks (if chroma folder exists)
         if os.path.exists(CHROMA_PATH):
              # Cannot easily count chunks without initializing Chroma, so we'll just check for folder existence
->>>>>>> 742f0056c784cd19d494ccd63428043a16f50c7d
              return file_count, "Indexed"
         return file_count, "Empty/Needs Indexing"
     except Exception:
         return 0, "Error"
-<<<<<<< HEAD
-
-def local_css(file_name):
-    """Loads custom CSS from a local file and injects it into the Streamlit page."""
-    try:
-        with open(file_name) as f:
-            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
-    except FileNotFoundError:
-        st.warning(f"⚠️ CSS file '{file_name}' not found. UI styling may be default.")
 
 
 # --- Streamlit Setup & Configuration ---
 
 st.set_page_config(page_title="Jarvis AI", page_icon="🤖", layout="wide")
-
-# Inject Custom CSS for the hacker/robot vibe (MUST be called first)
-local_css("style.css") 
-
-# --- J.A.R.V.I.S. Header Layout ---
-col_logo, col_title, col_status = st.columns([1, 4, 2])
-
-# Col 1: Stylized Logo/Icon
-col_logo.markdown(
-    """
-    <div style='text-align:center; font-size: 40px; color: #00FF41; line-height: 1.2;'>
-        ◆
-    </div>
-    """, unsafe_allow_html=True
-)
-# Col 2: Main Title
-col_title.markdown(
-    "## Local Jarvis AI <sub>(Offline RAG System)</sub>", 
-    unsafe_allow_html=True
-)
-
-# Col 3: Dynamic Status Dashboard
-ollama_up = check_ollama_health()
-db_files, db_status_text = get_db_status()
-status_icon = '🟢' if ollama_up else '🔴'
-# Use the status-box class for vertical alignment
-col_status.markdown(
-    f"<div class='status-box'>**OLLAMA:** {status_icon}<br>DB: {db_status_text}</div>", 
-    unsafe_allow_html=True
-)
-st.markdown("---") # Visual separator
-
-# Initialize chat history in session state
-if "messages" not in st.session_state:
-    st.session_state["messages"] = []
-
-# Ensure data folder exists
-if not os.path.exists(DATA_PATH):
-    os.makedirs(DATA_PATH)
-
-# --- Sidebar Control Panel ---
-# Use st.container() for better control over blocks
-with st.sidebar:
-    st.header("⚙️ Control Panel")
-    st.markdown("---") 
-
-    # RAG Settings Container
-    with st.container(border=False):
-        st.subheader("🧠 RAG Settings")
-        
-        # 1. Model Selection
-        selected_model = st.selectbox(
-            "Select LLM Model",
-            options=["mistral", "llama3"],
-            index=0,
-            help="Make sure the model is pulled via Ollama (e.g., 'ollama pull mistral')."
-        )
-
-        # 2. RAG Parameter Tuning
-        k_chunks = st.slider(
-            "Context Chunks (k)",
-            min_value=3, max_value=10, value=5, step=1,
-            help="Number of relevant text chunks retrieved from the database to answer your question."
-        )
-
-    st.markdown("---") # Separator between RAG and Knowledge Base
-    
-    # Knowledge Base Container
-    with st.container(border=False):
-        st.subheader("📂 Manage Knowledge Base")
-        uploaded_files = st.file_uploader(
-            "Upload Notes (PDF, DOCX, TXT, etc.)",
-            accept_multiple_files=True,
-            type=["pdf", "txt", "docx", "csv", "md"]
-        )
-
-        if uploaded_files:
-            st.info("Processing files...")
-            
-            for uploaded_file in uploaded_files:
-                file_path = os.path.join(DATA_PATH, uploaded_file.name)
-                with open(file_path, "wb") as f:
-                    f.write(uploaded_file.read())
-                st.success(f"✅ Uploaded: {uploaded_file.name}")
-
-            try:
-                with st.spinner("🧠 Updating the database..."):
-                    docs = load_documents()
-                    st.caption(f"Loaded {len(docs)} pages.")
-                    chunks = split_documents(docs)
-                    st.caption(f"Created {len(chunks)} chunks.")
-                    add_to_chroma(chunks)
-                
-                st.success("✅ Database updated successfully!")
-                st.experimental_rerun()
-            except Exception as e:
-                st.error(f"⚠️ Error while updating database: {e}")
-
-    # Use a blank element to push the "Clear Chat" button to the bottom
-    st.empty()
-    st.markdown("<br><br>", unsafe_allow_html=True) # Add some final space
-
-    st.markdown("---") 
-=======
-
-
-# --- Streamlit Setup & Configuration ---
-
-st.set_page_config(page_title="Jarvis AI", page_icon="🤖", layout="wide")
-st.title("🤖 Your Local Jarvis AI")
+st.title("J.A.R.V.I.S")
 st.caption("A private, offline RAG assistant built with Ollama, LangChain, and ChromaDB.")
 
 # Initialize chat history in session state
@@ -231,7 +108,6 @@ with st.sidebar:
             st.error(f"⚠️ Error while updating database: {e}")
 
     st.markdown("---")
->>>>>>> 742f0056c784cd19d494ccd63428043a16f50c7d
     if st.button("🗑️ Clear Chat History", type="secondary"):
         st.session_state["messages"] = []
         st.experimental_rerun()
@@ -245,11 +121,7 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 # Handle user input
-<<<<<<< HEAD
-if prompt := st.chat_input("Enter Command or Query..."):
-=======
 if prompt := st.chat_input("Ask Jarvis a question here..."):
->>>>>>> 742f0056c784cd19d494ccd63428043a16f50c7d
     
     if not ollama_up:
         st.error("🔴 Ollama is not running. Please start the service (e.g., `ollama serve`) before asking a question.")
@@ -262,31 +134,16 @@ if prompt := st.chat_input("Ask Jarvis a question here..."):
 
     # 2. Display assistant response (Streaming)
     with st.chat_message("assistant"):
-<<<<<<< HEAD
-        with st.spinner("🤖 Jarvis is processing..."):
-            
-            try:
-=======
         with st.spinner("🤖 Jarvis is thinking..."):
             
             try:
                 # Call the generator function with user-selected parameters
->>>>>>> 742f0056c784cd19d494ccd63428043a16f50c7d
                 response_generator = query_rag(
                     prompt, 
                     k=k_chunks, 
                     model_name=selected_model
                 )
                 
-<<<<<<< HEAD
-                full_response = st.write_stream(response_generator)
-                
-                # Check for SOURCES and append final response to history
-                st.session_state.messages.append({"role": "assistant", "content": full_response})
-                    
-            except Exception as e:
-                error_message = f"⚠️ System Error during generation: {e}"
-=======
                 # Stream the response and capture the full output
                 full_response = st.write_stream(response_generator)
                 
@@ -300,6 +157,5 @@ if prompt := st.chat_input("Ask Jarvis a question here..."):
                     
             except Exception as e:
                 error_message = f"⚠️ Something went wrong during generation: {e}"
->>>>>>> 742f0056c784cd19d494ccd63428043a16f50c7d
                 st.error(error_message)
                 st.session_state.messages.append({"role": "assistant", "content": error_message})
