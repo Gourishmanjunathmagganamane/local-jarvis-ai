@@ -11,11 +11,13 @@ from langchain_chroma import Chroma
 
 
 CHROMA_PATH = "chroma"
+DATA_PATH = "data"  # <-- ADD THIS LINE
 OLLAMA_API = os.getenv("OLLAMA_API", "http://localhost:11434")
 
+# query_data.py: Replace existing PROMPT_TEMPLATE
 PROMPT_TEMPLATE = """
-Use the following CONTEXT (only these texts) to answer the QUESTION.
-If the answer cannot be found in the context, say "I couldn't find this in the uploaded notes."
+You are Jarvis, a helpful, friendly, and highly intelligent AI assistant designed to summarize private documentation.
+Your goal is to provide a comprehensive, structured, and easy-to-read answer based ONLY on the CONTEXT provided below.
 
 CONTEXT:
 {context}
@@ -23,7 +25,13 @@ CONTEXT:
 QUESTION:
 {question}
 
-Answer succinctly and add a SOURCES line listing chunk ids (if available).
+---
+INSTRUCTIONS FOR ANSWERING:
+1.  **Adopt a helpful tone.** Answer the user directly and concisely.
+2.  **Structure is Key:** Use **Markdown** (headings, bolding, bullet points) for clear organization.
+3.  **Code Formatting:** Use code blocks (```...```) for technical examples or commands.
+4.  **No Fabrications:** If the answer is not in the context, state: "I couldn't find this specific information in the uploaded notes."
+5.  **Citations:** Do NOT include the sources line in your direct response.
 """
 
 def query_rag(query_text: str, k: int = 5, model_name: str = "mistral"):
@@ -32,38 +40,43 @@ def query_rag(query_text: str, k: int = 5, model_name: str = "mistral"):
 
     results = db.similarity_search_with_score(query_text, k=k)
     if not results:
-        return "⚠️ No relevant context found in the database."
+        # Instead of returning a string, we yield it
+        yield "⚠️ No relevant context found in the database."
+        return # End the generator
 
     context_text = "\n\n---\n\n".join([doc.page_content for doc, _ in results])
     prompt = PROMPT_TEMPLATE.format(context=context_text, question=query_text)
 
-    # Call Ollama generation endpoint (stream-safe)
+    # Call Ollama generation endpoint (stream=True is critical)
     url = f"{OLLAMA_API}/api/generate"
     payload = {"model": model_name, "prompt": prompt}
 
     try:
         resp = requests.post(url, json=payload, stream=True, timeout=180)
+        
         full_response = ""
-        # Ollama streams newline-delimited JSON objects; parse safely
+        # Ollama streams newline-delimited JSON objects
         for line in resp.iter_lines(decode_unicode=True):
             if not line:
                 continue
             try:
                 obj = json.loads(line)
                 if "response" in obj:
-                    full_response += obj["response"]
+                    chunk = obj["response"]
+                    full_response += chunk
+                    yield chunk  # <<<< CRITICAL: YIELD the chunk for streaming
+                
+                # Check for the 'done' marker to append sources
+                if obj.get("done", False):
+                    # After the main response is done, yield the sources separately
+                    sources = [doc.metadata.get("id") for doc, _ in results]
+                    sources_text = f"\n\n---\n\n**Sources:** {sources}"
+                    yield sources_text 
+                    break # exit loop
             except json.JSONDecodeError:
-                # skip non-json lines
                 continue
-        if not full_response:
-            return "⚠️ Model returned no text."
-        # prepare sources
-        sources = [doc.metadata.get("id") for doc, _ in results]
-        formatted = f"{full_response.strip()}\n\nSOURCES: {sources}"
-        print(formatted)
-        return full_response.strip()
     except Exception as e:
-        return f"⚠️ Error calling Ollama: {e}"
+        yield f"⚠️ Error calling Ollama: {e}"
 
 # CLI usage
 if __name__ == "__main__":

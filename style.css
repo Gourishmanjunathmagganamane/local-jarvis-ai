@@ -1,0 +1,80 @@
+/* style.css */
+
+/* --- BODY BACKGROUND IMAGE (J.A.R.V.I.S. Blueprint) --- */
+[data-testid="stAppViewContainer"] {
+    /* Ensure this path matches where you place your image (e.g., in a 'static' folder) */
+    background-image: url("static/iron_man_bg.jpg"); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+}
+
+/* --- OVERLAY STYLING (To ensure text is readable) --- */
+/* Target the main content container and make it slightly transparent black */
+.st-emotion-cache-z5fcl4 { 
+    background-color: rgba(0, 0, 0, 0.9) !important; /* 90% opaque black overlay */
+    border: 2px solid #00FF41;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.4); 
+    margin-top: -15px; 
+}
+
+/* Target the sidebar and make it slightly transparent dark charcoal */
+[data-testid="stSidebar"] {
+    background-color: rgba(26, 26, 26, 0.95) !important; /* Almost opaque dark charcoal */
+    border-right: 2px solid #00FF41;
+}
+
+/* --- GLOBAL STYLING (Hacker Vibe) --- */
+
+/* Remove all round corners for a sharp, robotic look */
+.st-emotion-cache-1cypcdb, .st-emotion-cache-1kyxisp, .st-emotion-cache-ztjqhn, .st-emotion-cache-9aqj0w, button, .st-emotion-cache-1k46u2g, .st-emotion-cache-1f198q3, .st-emotion-cache-1g8ghq0 {
+    border-radius: 0 !important;
+}
+
+/* CHAT MESSAGE BUBBLES */
+.st-emotion-cache-user-message {
+    background-color: #1A1A1A !important; 
+    border-left: 3px solid #0077B6 !important; /* Blue for 'user' */
+}
+
+.st-emotion-cache-assistant-message {
+    background-color: #0d0d0d !important; 
+    border-right: 3px solid #00FF41 !important; /* NEON GREEN for 'Jarvis' */
+    box-shadow: 0 0 5px rgba(0, 255, 65, 0.4); 
+}
+
+/* TEXT INPUT */
+.st-emotion-cache-j7qwjs {
+    border: 1px solid #00FF41 !important;
+    background-color: #000000 !important;
+}
+
+/* BUTTONS */
+button[kind="primary"] {
+    background-color: #00FF41 !important;
+    color: #000000 !important;
+    font-weight: bold;
+    border: none !important;
+}
+
+/* Custom styles for the Title/Header alignment */
+/* FIX: Control h2 margin/padding */
+h2 {
+    color: #CCCCCC !important; 
+    padding-top: 5px; 
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    line-height: 1.2;
+}
+
+/* FIX: New style to center the status box vertically with the title (Flexbox trick) */
+.status-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center vertically within the column */
+    height: 100%;
+    text-align: right; 
+    font-size: 14px;
+}
